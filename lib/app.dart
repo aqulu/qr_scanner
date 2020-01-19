@@ -9,7 +9,7 @@ class App extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: ScanScreen(title: 'Flutter Demo Home Page'),
+      home: ScanScreen(),
     );
   }
 }
