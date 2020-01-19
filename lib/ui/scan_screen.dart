@@ -61,6 +61,6 @@ class _ScanScreen extends StatelessWidget {
       );
 
   ListTile _buildResultRow(QrCode code) => ListTile(
-        title: Text(code.code),
+        title: Text(code.content),
       );
 }

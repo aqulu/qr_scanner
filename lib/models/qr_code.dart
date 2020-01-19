@@ -2,15 +2,16 @@ import 'package:flutter/foundation.dart';
 
 @immutable
 class QrCode {
-  final String code;
+  final String content;
 
-  const QrCode(this.code);
+  const QrCode(this.content);
 
   @override
   bool operator ==(other) {
-    return identical(this, other) || (other is QrCode && code == other.code);
+    return identical(this, other) ||
+        (other is QrCode && content == other.content);
   }
 
   @override
-  int get hashCode => code.hashCode;
+  int get hashCode => content.hashCode;
 }
