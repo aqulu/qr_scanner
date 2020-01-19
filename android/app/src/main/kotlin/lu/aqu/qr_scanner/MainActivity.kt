@@ -1,4 +1,4 @@
-package com.example.qr_scanner
+package lu.aqu.qr_scanner
 
 import androidx.annotation.NonNull;
 import io.flutter.embedding.android.FlutterActivity
