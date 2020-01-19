@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:qr_mobile_vision/qr_camera.dart';
+import 'package:flutter_qr_reader/flutter_qr_reader.dart';
 import 'package:qr_scanner/blocs/scan_bloc.dart';
 import 'package:qr_scanner/blocs/scan_event.dart';
 
@@ -9,33 +9,29 @@ class ScanScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) => BlocProvider<ScanBloc>(
         create: (_) => ScanBloc(),
-        child: Scaffold(
-          body: Stack(
-            children: <Widget>[
-              QrCamera(
-                qrCodeCallback: (code) {
-                  BlocProvider.of<ScanBloc>(context).add(Result(code));
-                },
-                onError: (context, error) {
-                  BlocProvider.of<ScanBloc>(context).add(ScanError(error));
-                  return SizedBox.shrink(); // leave error handling to bloc
-                },
-                child: Center(
-                  child: Container(
-                    height: 400,
-                    width: 400,
-                    decoration: BoxDecoration(
-                      color: Colors.transparent,
-                      border: Border.all(
-                        color: Colors.black45,
-                        width: 10.0,
-                        style: BorderStyle.solid,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            ],
+        child: _ScanScreen(),
+      );
+}
+
+class _ScanScreen extends StatefulWidget {
+  @override
+  __ScanScreenState createState() => __ScanScreenState();
+}
+
+class __ScanScreenState extends State<_ScanScreen> {
+  void _onQrReaderInitialized(QrReaderViewController controller) {
+    controller.startCamera((code, _) {
+      BlocProvider.of<ScanBloc>(context).add(Result(code));
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) => Scaffold(
+        body: LayoutBuilder(
+          builder: (context, constraints) => QrReaderView(
+            height: constraints.maxHeight,
+            width: constraints.maxWidth,
+            callback: _onQrReaderInitialized,
           ),
         ),
       );
