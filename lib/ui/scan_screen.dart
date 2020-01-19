@@ -6,6 +6,7 @@ import 'package:qr_scanner/blocs/scan_bloc.dart';
 import 'package:qr_scanner/blocs/scan_event.dart';
 import 'package:qr_scanner/blocs/scan_state.dart';
 import 'package:qr_scanner/models/qr_code.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ScanScreen extends StatelessWidget {
   @override
@@ -62,5 +63,20 @@ class _ScanScreen extends StatelessWidget {
 
   ListTile _buildResultRow(QrCode code) => ListTile(
         title: Text(code.content),
+        trailing: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            if (code.isAbsoluteUri)
+              IconButton(
+                icon: Icon(Icons.open_in_browser),
+                onPressed: () async {
+                  final url = code.content;
+                  if (await canLaunch(url)) {
+                    await launch(url);
+                  }
+                },
+              ),
+          ],
+        ),
       );
 }

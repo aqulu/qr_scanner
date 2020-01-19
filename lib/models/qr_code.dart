@@ -6,6 +6,9 @@ class QrCode {
 
   const QrCode(this.content);
 
+  /// true if [content] is a parsable and an absolute URI
+  bool get isAbsoluteUri => Uri.tryParse(content)?.isAbsolute ?? false;
+
   @override
   bool operator ==(other) {
     return identical(this, other) ||
