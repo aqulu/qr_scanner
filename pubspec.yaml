@@ -28,6 +28,8 @@ dependencies:
 
   dartz: ^0.8.9
 
+  url_launcher: ^5.4.1
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
