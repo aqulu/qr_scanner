@@ -9,6 +9,16 @@ class ScanBloc extends Bloc<ScanEvent, ScanState> {
   ScanState get initialState => ScanState([]);
 
   @override
+  Stream<ScanState> transformEvents(
+    Stream<ScanEvent> events,
+    Stream<ScanState> Function(ScanEvent) next,
+  ) =>
+      super.transformEvents(
+        events.distinct(),
+        next,
+      );
+
+  @override
   Stream<ScanState> mapEventToState(ScanEvent event) async* {
     if (event is Result) {
       final currentState = state;
