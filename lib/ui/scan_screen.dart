@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_qr_reader/flutter_qr_reader.dart';
@@ -76,6 +77,12 @@ class _ScanScreen extends StatelessWidget {
                   }
                 },
               ),
+            IconButton(
+              icon: Icon(Icons.content_copy),
+              onPressed: () async {
+                await Clipboard.setData(ClipboardData(text: code.content));
+              },
+            ),
           ],
         ),
       );
