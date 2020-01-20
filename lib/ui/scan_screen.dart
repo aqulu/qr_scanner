@@ -40,9 +40,9 @@ class _ScanScreen extends StatelessWidget {
       );
 
   Widget get _bottomSheet => DraggableScrollableSheet(
-        minChildSize: 0.25,
-        initialChildSize: 0.25,
-        maxChildSize: 0.75,
+        minChildSize: 0.2,
+        initialChildSize: 0.2,
+        maxChildSize: 0.6,
         builder: (_, ScrollController scrollController) => Container(
           decoration: const BoxDecoration(
             color: Colors.white60,
