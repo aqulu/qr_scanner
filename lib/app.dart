@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:qr_scanner/ui/scan_screen.dart';
+import 'package:qr_scanner/routes.dart';
 
 class App extends StatelessWidget {
   @override
@@ -9,7 +9,8 @@ class App extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.grey,
       ),
-      home: ScanScreen(),
+      routes: Routes.get(),
+      initialRoute: Routes.scan,
     );
   }
 }
