@@ -61,9 +61,9 @@ class _PermissionCheckScreenState extends State<_PermissionCheckScreen>
     return BlocConsumer<PermissionCheckBloc, PermissionStatus>(
       listener: (BuildContext context, PermissionStatus state) {
         if (state == PermissionStatus.granted) {
-          SchedulerBinding.instance.addPostFrameCallback((_) {
-            Navigator.of(context).pushReplacementNamed(Routes.scan);
-          });
+          // PermissionStatus.granted does not trigger rebuilds,
+          // so the redirect call does not require a postFrameCallback
+          Navigator.of(context).pushReplacementNamed(Routes.scan);
         }
 
         if (state == PermissionStatus.denied ||
@@ -83,22 +83,24 @@ class _PermissionCheckScreenState extends State<_PermissionCheckScreen>
         PermissionStatus.unknown,
       ].contains(state),
       builder: (BuildContext context, PermissionStatus state) => Scaffold(
-        body: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              'qr_scanner requires camera permissions to function properly',
-              textAlign: TextAlign.center,
-            ),
-            RaisedButton(
-              child: Text('grant permissions'),
-              onPressed: () {
-                permissionHandler.openAppSettings();
-              },
-            ),
-          ],
-        ),
+        body: (state == PermissionStatus.unknown)
+            ? Container()
+            : Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  Text(
+                    'qr_scanner requires camera permissions to function properly',
+                    textAlign: TextAlign.center,
+                  ),
+                  RaisedButton(
+                    child: Text('grant permissions'),
+                    onPressed: () {
+                      permissionHandler.openAppSettings();
+                    },
+                  ),
+                ],
+              ),
       ),
       buildWhen: (_, state) => state != PermissionStatus.granted,
     );
