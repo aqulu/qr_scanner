@@ -23,13 +23,37 @@ class PermissionCheckScreen extends StatelessWidget {
             create: (context) => PermissionCheckBloc(
               Provider.of<PermissionHandler>(context, listen: false),
             ),
+            lazy: false,
           ),
         ],
         child: _PermissionCheckScreen(),
       );
 }
 
-class _PermissionCheckScreen extends StatelessWidget {
+class _PermissionCheckScreen extends StatefulWidget {
+  @override
+  _PermissionCheckScreenState createState() => _PermissionCheckScreenState();
+}
+
+class _PermissionCheckScreenState extends State<_PermissionCheckScreen>
+    with WidgetsBindingObserver {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    BlocProvider.of<PermissionCheckBloc>(context).add(CheckPermissions());
+  }
+
   @override
   Widget build(BuildContext context) {
     final permissionHandler = Provider.of<PermissionHandler>(context);
@@ -70,10 +94,7 @@ class _PermissionCheckScreen extends StatelessWidget {
             RaisedButton(
               child: Text('grant permissions'),
               onPressed: () {
-                permissionHandler.openAppSettings().then((_) {
-                  BlocProvider.of<PermissionCheckBloc>(context)
-                      .add(CheckPermissions());
-                });
+                permissionHandler.openAppSettings();
               },
             ),
           ],
