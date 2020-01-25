@@ -10,7 +10,7 @@ class App extends StatelessWidget {
         primarySwatch: Colors.grey,
       ),
       routes: Routes.get(),
-      initialRoute: Routes.scan,
+      initialRoute: Routes.permissionCheck,
     );
   }
 }
