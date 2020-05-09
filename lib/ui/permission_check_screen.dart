@@ -75,21 +75,24 @@ class _PermissionCheckScreenState extends State<_PermissionCheckScreen>
       builder: (BuildContext context, PermissionStatus state) => Scaffold(
         body: (state == PermissionStatus.unknown)
             ? Container()
-            : Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  Text(
-                    'qr_scanner requires camera permissions to function properly',
-                    textAlign: TextAlign.center,
-                  ),
-                  RaisedButton(
-                    child: Text('grant permissions'),
-                    onPressed: () {
-                      permissionHandler.openAppSettings();
-                    },
-                  ),
-                ],
+            : Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    Text(
+                      'qr_scanner requires camera permissions to function properly',
+                      textAlign: TextAlign.center,
+                    ),
+                    MaterialButton(
+                      child: Text('grant permissions'),
+                      onPressed: () {
+                        permissionHandler.openAppSettings();
+                      },
+                    ),
+                  ],
+                ),
               ),
       ),
       buildWhen: (_, state) => state != PermissionStatus.granted,
