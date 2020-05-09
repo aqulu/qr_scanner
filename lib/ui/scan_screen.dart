@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_qr_reader/flutter_qr_reader.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:qr_scanner/blocs/scan_bloc.dart';
 import 'package:qr_scanner/blocs/scan_event.dart';
 import 'package:qr_scanner/blocs/scan_state.dart';
@@ -81,6 +82,7 @@ class _ScanScreen extends StatelessWidget {
               icon: Icon(Icons.content_copy),
               onPressed: () async {
                 await Clipboard.setData(ClipboardData(text: code.content));
+                Fluttertoast.showToast(msg: "Copied to clipboard!");
               },
             ),
           ],
