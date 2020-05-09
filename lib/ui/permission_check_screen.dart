@@ -51,7 +51,8 @@ class _PermissionCheckScreenState extends State<_PermissionCheckScreen>
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
-    BlocProvider.of<PermissionCheckBloc>(context).add(CheckPermissions());
+    BlocProvider.of<PermissionCheckBloc>(context)
+        .add(PermissionCheckEvent.checkPermissions);
   }
 
   @override
@@ -64,17 +65,6 @@ class _PermissionCheckScreenState extends State<_PermissionCheckScreen>
           // PermissionStatus.granted does not trigger rebuilds,
           // so the redirect call does not require a postFrameCallback
           Navigator.of(context).pushReplacementNamed(Routes.scan);
-        }
-
-        if (state == PermissionStatus.denied ||
-            state == PermissionStatus.unknown) {
-          permissionHandler.requestPermissions([PermissionGroup.camera]).then(
-            (result) {
-              final permissionStatus = result[PermissionGroup.camera];
-              BlocProvider.of<PermissionCheckBloc>(context)
-                  .add(UpdatePermissionStatus(permissionStatus));
-            },
-          );
         }
       },
       listenWhen: (_, state) => [
